@@ -12,7 +12,7 @@ const titleClickHandler = function(event){
     activeLink.classList.remove('active');
   }
 
-  /* [IN PROGRESS] add class 'active' to the clicked link */
+  /* [DONE] add class 'active' to the clicked link */
   clickedElement.classList.add('active');
   console.log('clickedElement:', clickedElement);
 
@@ -25,7 +25,7 @@ for (let activeArticle of activeArticles) {
 }
 
 
-  /* get 'href' attribute from the clicked link */
+  /* [DONE] get 'href' attribute from the clicked link */
   const articleSelector = clickedElement.getAttribute('href');
   console.log('articleSelector:', articleSelector);
   const targetArticle = document.querySelector(articleSelector);
@@ -36,7 +36,7 @@ for (let activeArticle of activeArticles) {
   console.log('Target article not found:', targetArticleHref);
   }
   
-  /* add class 'active' to the correct article */
+  /* [DONE above] add class 'active' to the correct article */
 
 
 };
