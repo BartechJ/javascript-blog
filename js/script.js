@@ -170,7 +170,7 @@ function generateAuthors() {
   /* find all articles */
   const articles = document.querySelectorAll(optArticleSelector);
   /* Initialize the html variable */
-  let html = '';
+  
   /* START LOOP: for every article: */
   for (let article of articles) {
     /* find author wrapper */
@@ -181,7 +181,7 @@ function generateAuthors() {
     /* generate HTML of the link */
     const linkHTML = `<a href="#authorName-${authorName}">${authorName}</a>`;
     /* add generated code to html variable */
-    html += linkHTML;
+    
     /* insert HTML of all the links into the author wrapper */
     if (authorWrapper) {
       authorWrapper.innerHTML = linkHTML;
