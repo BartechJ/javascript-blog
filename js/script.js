@@ -109,7 +109,7 @@ function generateTags() {
     /* START LOOP: for each tag */
     for (let tag of tagsArray) {
       /* generate HTML of the link */
-       const linkHTML = `<li><a href="#${tag}">${tag}</a></li>`;
+       const linkHTML = `<li><a href="#tag-${tag}">${tag}</a></li>`;
       /* add generated code to html variable */
         html += linkHTML;
       /* END LOOP: for each tag */
@@ -137,7 +137,7 @@ const href = clickedElement.getAttribute('href');
 const tag = clickedElement.textContent;
 console.log(tag);
   /* find all tag links with class active */
-const activeTagLinks = document.querySelectorAll('a.active[href^="#tag-"]');
+const activeTagLinks = document.querySelectorAll('a.active[href^="tag-"]');
   /* START LOOP: for each active tag link */
 for (let activeTagLink of activeTagLinks) {
  
@@ -161,11 +161,18 @@ console.log(tag);
 }
 function addClickListenersToTags() {
   /* find all links to tags */
-  const tagLinks = document.querySelectorAll('.list.tags a');
-  /* START LOOP: for each link */
-  for (let tagLink of tagLinks) {
+  const articleTagLinks = document.querySelectorAll('.post-tags a');
+for (let articleTagLink of articleTagLinks) {
     /* add tagClickHandler as the event listener for that link */
-    tagLink.addEventListener('click', tagClickHandler);
+    articleTagLink.addEventListener('click', tagClickHandler);
+}
+
+ const sidebarTagLinks = document.querySelectorAll('.list.tags a');
+ 
+  /* START LOOP: for each link */
+  for (let sidebarTagLink of sidebarTagLinks) {
+    /* add tagClickHandler as the event listener for that link */
+    sidebarTagLink.addEventListener('click', tagClickHandler);
   }}
   /* END LOOP: for each link */
 addClickListenersToTags();
