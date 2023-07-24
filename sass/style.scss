@@ -114,7 +114,22 @@ body {
 
 .post-tags {
   display: flex;
-  p {
-    margin: 0 10px 0 0;
-  }
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.post-tags ul {
+  margin-bottom: 0px;
+  padding: 0;
+  margin-left: 2px;
+}
+
+.post-tags li {
+  margin-right: 7px;
+color: #000; 
+}
+
+
+.post-tags .list-horizontal a {
+  color: #5050DB; 
 }

@@ -95,9 +95,23 @@ body {
 
 .post-tags {
   display: flex;
+  align-items: center;
+  margin-bottom: 10px;
 }
-.post-tags p {
-  margin: 0 10px 0 0;
+
+.post-tags ul {
+  margin-bottom: 0px;
+  padding: 0;
+  margin-left: 2px;
+}
+
+.post-tags li {
+  margin-right: 7px;
+  color: #000;
+}
+
+.post-tags .list-horizontal a {
+  color: #5050DB;
 }
 
 /*# sourceMappingURL=style.css.map */
