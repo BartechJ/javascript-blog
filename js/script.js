@@ -38,6 +38,7 @@ const optArticleSelector = '.post',
   optTitleListSelector = '.titles';
 const optArticleTagsSelector = '.post-tags .list-horizontal';
 const optArticleAuthorSelector = '.post-author';
+const optTagsListSelector = '.tags.list';
 
 function generateTitleLinks(customSelector = '') {
   /* [DONE] remove contents of titleList */
@@ -77,38 +78,54 @@ function generateTitleLinks(customSelector = '') {
 }
 
 function generateTags() {
-  /* find all articles */
+/* [NEW] create a new variable allTags with an empty object */
+  let allTags = {};
   const articles = document.querySelectorAll(optArticleSelector);
-  /* START LOOP: for every article: */
+
   for (let article of articles) {
-    /* find tags wrapper */
     const tagsWrapper = article.querySelector(optArticleTagsSelector);
-    /* make html variable with an empty string */
-
-    /* get tags from data-tags attribute */
     const articleTags = article.getAttribute('data-tags');
-    /* split tags into an array */
     const tagsArray = articleTags.split(' ');
-    console.log(tagsArray);
 
-    /* Initialize the html variable */
     let html = '';
-    /* START LOOP: for each tag */
     for (let tag of tagsArray) {
-      /* generate HTML of the link */
-      const linkHTML = `<li><a href="#tag-${tag}">${tag}</a></li> `;
-      /* add generated code to html variable */
+      const linkHTML = `<li><a href="#tag-${tag}">${tag}</a></li>`;
       html += linkHTML;
-      /* END LOOP: for each tag */
+      
+      // [NEW] check if this link is NOT already in allTags
+      if(!allTags[tag]) {
+        // [NEW] add generated code to allTags array
+        allTags[tag] = 1;
+      } else {
+    allTags[tag]++;
     }
-    /* insert HTML of all the links into the tags wrapper */
+    }
+
     if (tagsWrapper) {
       tagsWrapper.innerHTML = '<ul class="list list-horizontal">' + html + '</ul>';
-      console.log(tagsWrapper);
     }
-    /* END LOOP: for every article */
   }
+
+  // [NEW] find list of tags in the right column
+  const tagList = document.querySelector(optTagsListSelector);
+
+  /* [NEW] create variable for all links HTML code */
+let allTagsHTML = '';
+
+/* [NEW] START LOOP: for each tag in allTags: */
+for(let tag in allTags){
+
+  /* [NEW] generate code of a link and add it to allTagsHTML */
+  allTagsHTML += `<li><a href="#tag-${tag}">${tag} (${allTags[tag] || 0})</a></li>`;
+
 }
+/* [NEW] END LOOP: for each tag in allTags: */
+
+/*[NEW] add HTML from allTagsHTML to tagList */
+tagList.innerHTML = '<ul class="list list-horizontal">' + allTagsHTML + '</ul>';
+ 
+}
+
 
 generateTags();
 
@@ -121,7 +138,7 @@ function tagClickHandler(event) {
   const href = clickedElement.getAttribute('href');
 
   /* make a new constant "tag" and extract tag from the "href" constant */
-  const tag = clickedElement.textContent;
+  const tag = href.replace('#tag-', '');
   console.log(tag);
   /* find all tag links with class active */
   const activeTagLinks = document.querySelectorAll('a.active[href^="tag-"]');
@@ -226,4 +243,4 @@ function addClickListenersToAuthors() {
 }
 
 addClickListenersToAuthors();
-generateTitleLinks();
+generateTitleLinks('');
