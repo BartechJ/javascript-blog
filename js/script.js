@@ -268,64 +268,52 @@ return optAuthorClassPrefix + classNumber;
 
 
 function generateAuthors() {
-  /* [NEW] create a new variable with an empty object */
   let allAuthors = {};
-  const allAuthorsData = { authors: [] };
   const articles = document.querySelectorAll(optArticleSelector);
-  
-  
 
-  /* Initialize the html variables for both main frame and sidebar */
   let sidebarHTML = '';
-  const authorsParams = calculateAuthorsParams(allAuthors);
 
-  /* START LOOP: for every article: */
   for (let article of articles) {
-    /* find author wrapper */
     const authorWrapper = article.querySelector(optArticleAuthorSelector);
-    /* get author from data-author attribute */
     const authorName = article.getAttribute('data-author');
-
-    /* generate HTML of the link for main frame */
     const authorLinkHTML = templates.authorLink({ author: authorName });
 
-    /* insert author name into the author wrapper in main frame */
     if (authorWrapper) {
       authorWrapper.innerHTML = authorLinkHTML;
     }
 
-   
-
- /* Check if author already exists in allAuthorsData */
-    const existingAuthor = allAuthorsData.authors.find(author => author.author === authorName);
-    const authorCount = existingAuthor ? `author-size-${existingAuthor.count}` : '';
-    if (!existingAuthor) {
-      allAuthorsData.authors.push({
-        author: authorName,
-        count: 1, 
-        className: calculateAuthorClass(authorCount,authorsParams ) 
-      });
+    if (!allAuthors[authorName]) {
+      allAuthors[authorName] = 1;
     } else {
-    existingAuthor.count += 1;
-    existingAuthor.className = `author-size-${existingAuthor.count}`;
-    
+      allAuthors[authorName]++;
     }
   }
 
- 
-  sidebarHTML = templates.authorCloudLink(allAuthorsData);
+  const authorsParams = calculateAuthorsParams(allAuthors);
 
-  /* Insert HTML of all the links into the author list in the sidebar */
+  const authorDataArray = [];
+  for (let authorName in allAuthors) {
+    const authorCount = allAuthors[authorName];
+    const authorClass = calculateAuthorClass(authorCount, authorsParams);
+    authorDataArray.push({
+      author: authorName,
+      count: authorCount,
+      className: authorClass
+    });
+  }
+
+  sidebarHTML = templates.authorCloudLink({ authors: authorDataArray });
+
   const authorsList = document.querySelector(optAuthorsListSelector);
   if (authorsList) {
     authorsList.innerHTML = '<ul class="list list-vertical">' + sidebarHTML + '</ul>';
-   }
-
-  addClickListenersToAuthors();
   }
 
+  addClickListenersToAuthors();
+}
 
-/* FUNCTION DECLARATION NOT WORKED WITH EVENT NEEDED CHANGE FOR AUTHOR IN ()*/
+
+
 function authorClickHandler(author) {
   /* [DONE] Copy algorithm from tagClickHandler */
   /* find all author links with class active */
@@ -371,5 +359,3 @@ function addClickListenersToAuthors() {
 addClickListenersToAuthors();
 generateTitleLinks('');
 generateAuthors();
-
-
